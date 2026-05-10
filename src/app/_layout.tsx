@@ -113,6 +113,10 @@ export default function RootLayout() {
                         name="settings"
                         options={{ headerShown: false, animation: "slide_from_right" }}
                      />
+                     <Stack.Screen
+                        name="list-editor"
+                        options={{ headerShown: false, animation: "slide_from_right" }}
+                     />
                   </Stack>
                </SafeAreaView>
             </Provider>
