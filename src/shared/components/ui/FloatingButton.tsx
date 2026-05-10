@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
    button: {
       position: "absolute",
       zIndex: 50,
-      width: 45,
-      height: 45,
+      width: 50,
+      height: 50,
       elevation: 8,
       backgroundColor: theme.bg.overlay,
    },
