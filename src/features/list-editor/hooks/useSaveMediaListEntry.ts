@@ -7,6 +7,7 @@ import type {
    SaveMediaListEntryMutation as SaveMediaListEntryMutationResult,
    SaveMediaListEntryMutationVariables,
 } from "@/shared/lib/graphql/generated/graphql";
+import { logger } from "@/shared/lib/utils/logger";
 import { refreshUserLibrary } from "@/stores/actions/refreshData";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -49,12 +50,12 @@ export const useSaveMediaListEntry = (variables: IVariables) => {
 
          if (mutationResult.error) {
             // TODO: rollback if the mutation fails
-            console.error("[Mutation Error]:", mutationResult.error.message);
+            logger.error("[Mutation Error]:", mutationResult.error.message);
          }
 
          await refreshUserLibrary();
       } catch (err) {
-         console.error("[saveEntry Failed]:", err);
+         logger.error("[saveEntry Failed]:", err);
       }
    };
 

@@ -2,6 +2,7 @@ import * as AuthSession from "expo-auth-session";
 import { useEffect } from "react";
 
 import { ANILIST_CLIENT_ID, ANILIST_CLIENT_SECRET, ANILIST_REDIRECT_URI } from "@/shared/constants";
+import { logger } from "@/shared/lib/utils/logger";
 import { useAuthStore } from "@/stores/authStore";
 
 export const useAuth = () => {
@@ -44,7 +45,7 @@ export const useAuth = () => {
                setToken(data.access_token, expiresAt);
             }
          } catch (err) {
-            console.error("Token exchange failed", err);
+            logger.error("Token exchange failed", err);
          }
       };
 

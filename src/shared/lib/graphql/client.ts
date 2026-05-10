@@ -7,6 +7,8 @@ import { fromPromise, mergeMap, pipe } from "wonka";
 import { ANILIST_API_URL } from "@/shared/constants";
 import { useAuthStore } from "@/stores/authStore";
 
+import { logger } from "../utils/logger";
+
 // Utility to wait for connection
 const waitForConnection = () => {
    return new Promise<void>((resolve) => {
@@ -58,7 +60,7 @@ export const client = new Client({
 
          if (remaining === "0" && reset && rateLimit) {
             const resetDate = new Date(parseInt(reset) * 1000);
-            console.warn("Rate limited! Reset at:", resetDate.toLocaleTimeString());
+            logger.warn("Rate limited! Reset at:", resetDate.toLocaleTimeString());
          }
 
          return response;

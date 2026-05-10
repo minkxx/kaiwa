@@ -18,6 +18,7 @@ import {
    useMediaId,
 } from "@/features/media-detail";
 import { FloatingButton } from "@/shared/components/ui/FloatingButton";
+import { logger } from "@/shared/lib/utils/logger";
 
 const Manga = () => {
    const router = useRouter();
@@ -40,7 +41,7 @@ const Manga = () => {
       router.push(`/list-editor?id=${data?.Media?.id}&type=${data?.Media?.type}`);
    };
 
-   if (error) console.error("Error fetching manga data:", error);
+   if (error) logger.error("Error fetching manga data:", error);
 
    if (fetching)
       return (

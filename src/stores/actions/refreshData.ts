@@ -14,6 +14,7 @@ import { GetAuthUserDataQuery } from "@/features/profile-screen/api/getAuthUserD
 import { UserProfile } from "@/features/profile-screen/types";
 import { client } from "@/shared/lib/graphql/client";
 import { MediaType } from "@/shared/lib/graphql/generated/graphql";
+import { logger } from "@/shared/lib/utils/logger";
 import { useAuthStore } from "@/stores/authStore";
 import { useDataStore } from "@/stores/dataStore";
 
@@ -23,7 +24,7 @@ const isString = (value: string | null | undefined): value is string =>
 export const refreshHomeScreenMedia = async () => {
    const { setTrendingAnime, setPopularAnime, setTrendingManga } = useDataStore.getState();
 
-   console.log("Refreshing home screen media...");
+   logger.info("Refreshing home screen media...");
 
    const preloadMediaImages = (
       mediaList: TrendingAnimeMedia | PopularAnimeMedia | TrendingMangaMedia,
@@ -54,7 +55,7 @@ export const refreshHomeScreenMedia = async () => {
       preloadMediaImages(trendingMangaResult.data.Page.media);
    }
 
-   console.log("Home screen media refreshed");
+   logger.info("Home screen media refreshed");
 };
 
 export const refreshUserProfile = async () => {
@@ -62,7 +63,7 @@ export const refreshUserProfile = async () => {
 
    if (!isLoggedIn) return;
 
-   console.log("Refreshing user profile...");
+   logger.info("Refreshing user profile...");
 
    const preloadUserProfileImages = (userProfile: UserProfile) => {
       const urls = [userProfile.bannerImage, userProfile.avatar?.large].filter(isString);
@@ -78,7 +79,7 @@ export const refreshUserProfile = async () => {
       preloadUserProfileImages(userProfileResult.data.Viewer);
    }
 
-   console.log("User profile refreshed");
+   logger.info("User profile refreshed");
 };
 
 export const refreshUserLibrary = async () => {
@@ -86,7 +87,7 @@ export const refreshUserLibrary = async () => {
       useAuthStore.getState();
    if (!isLoggedIn || !userProfile) return;
 
-   console.log("Refreshing user library...");
+   logger.info("Refreshing user library...");
 
    const preloadUserLibraryImages = (lists: UserLibraryLists) => {
       const urls = lists
@@ -122,7 +123,7 @@ export const refreshUserLibrary = async () => {
       preloadUserLibraryImages(mangaResult.data.MediaListCollection.lists);
    }
 
-   console.log("User library refreshed");
+   logger.info("User library refreshed");
 };
 
 export const refreshAppData = async () => {

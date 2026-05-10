@@ -10,6 +10,7 @@ import { Provider } from "urql";
 
 import { theme } from "@/shared/constants/theme";
 import { client } from "@/shared/lib/graphql/client";
+import { logger } from "@/shared/lib/utils/logger";
 import { refreshAppData } from "@/stores/actions/refreshData";
 import { useAuthStore } from "@/stores/authStore";
 import { useDataStore } from "@/stores/dataStore";
@@ -45,7 +46,7 @@ export default function RootLayout() {
                if (isMounted) setIsReady(true);
 
                void refreshAppData().catch((error) => {
-                  console.error("[SWR] Revalidation failed:", error);
+                  logger.error("[SWR] Revalidation failed:", error);
                });
 
                return;
@@ -53,7 +54,7 @@ export default function RootLayout() {
 
             await refreshAppData();
          } catch (error) {
-            console.error("[SWR] Startup preload failed:", error);
+            logger.error("[SWR] Startup preload failed:", error);
          } finally {
             if (isMounted) setIsReady(true);
          }

@@ -3,6 +3,8 @@ import * as Updates from "expo-updates";
 import { useState } from "react";
 import { Alert } from "react-native";
 
+import { logger } from "../lib/utils/logger";
+
 export const useExpoUpdate = () => {
    const { currentlyRunning, isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
    const [isChecking, setIsChecking] = useState(false);
@@ -26,7 +28,7 @@ export const useExpoUpdate = () => {
          }
       } catch (error) {
          Alert.alert("Error", "Could not check for updates.");
-         console.error(error);
+         logger.error(error);
       } finally {
          setIsChecking(false);
       }
@@ -47,7 +49,7 @@ export const useExpoUpdate = () => {
          await Updates.reloadAsync();
       } catch (error) {
          Alert.alert("Error", "Failed to download the update.");
-         console.error(error);
+         logger.error(error);
       } finally {
          setIsDownloading(false);
       }
