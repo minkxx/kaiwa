@@ -24,6 +24,7 @@ export const GetAnimeByIdQuery = gql(/* GraphQL */ `
          season
          source
          status
+         type
          trailer {
             id
             site

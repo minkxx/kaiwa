@@ -22,6 +22,7 @@ export const GetMangaByIdQuery = gql(/* GraphQL */ `
          genres
          source
          status
+         type
          trailer {
             id
             site
