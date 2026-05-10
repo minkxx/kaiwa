@@ -37,12 +37,7 @@ const Anime = () => {
    };
 
    const handlerEditPress = () => {
-      console.log(
-         "Edit pressed:",
-         data?.Media?.id,
-         data?.Media?.format,
-         data?.Media?.mediaListEntry?.status,
-      );
+      router.push(`/list-editor?id=${data?.Media?.id}&type=${data?.Media?.type}`);
    };
 
    if (error) console.error("Error fetching anime data for media ID ", mediaId, ":", error);
