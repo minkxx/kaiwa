@@ -58,9 +58,16 @@ export const client = new Client({
          const remaining = response.headers.get("x-ratelimit-remaining");
          const reset = response.headers.get("x-ratelimit-reset");
 
+         if (rateLimit && remaining)
+            logger.info(`Rate limit: ${rateLimit} Rate remaining: ${remaining}`);
+
          if (remaining === "0" && reset && rateLimit) {
             const resetDate = new Date(parseInt(reset) * 1000);
-            logger.warn("Rate limited! Reset at:", resetDate.toLocaleTimeString());
+            const resetInSeconds = Math.ceil((resetDate.getTime() - Date.now()) / 1000);
+            logger.warn(
+               `Rate limit exceeded! Reset in ${resetInSeconds} seconds at:`,
+               resetDate.toLocaleTimeString(),
+            );
          }
 
          return response;
