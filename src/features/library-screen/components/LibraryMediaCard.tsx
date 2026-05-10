@@ -3,11 +3,10 @@ import { useRouter } from "expo-router";
 import { Minus, Plus } from "lucide-react-native";
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
 
+import { useSaveMediaListEntry } from "@/features/list-editor";
 import { theme } from "@/shared/constants/theme";
 import { MediaListStatus, MediaType } from "@/shared/lib/graphql/generated/graphql";
 import { formatAiringDate } from "@/shared/lib/utils/date";
-
-import { useSaveMediaListEntry } from "../hooks/useSaveMediaListEntry";
 
 interface LibraryMediaCardProps {
    listEntryId: number;
