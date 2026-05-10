@@ -43,13 +43,44 @@ const offlineExchange: Exchange =
 export const client = new Client({
    url: ANILIST_API_URL,
    preferGetMethod: false,
+   fetchOptions: {
+      method: "POST",
+      headers: {
+         "Content-Type": "application/json",
+         Accept: "application/json",
+      },
+   },
+   fetch: async (url, options) => {
+      return fetch(url, options).then((response) => {
+         const rateLimit = response.headers.get("x-ratelimit-limit");
+         const remaining = response.headers.get("x-ratelimit-remaining");
+         const reset = response.headers.get("x-ratelimit-reset");
+
+         if (remaining === "0" && reset && rateLimit) {
+            const resetDate = new Date(parseInt(reset) * 1000);
+            console.warn("Rate limited! Reset at:", resetDate.toLocaleTimeString());
+         }
+
+         return response;
+      });
+   },
    exchanges: [
       offlineExchange,
       cacheExchange,
       retryExchange({
          initialDelayMs: 1000,
-         maxNumberAttempts: 3,
-         retryIf: (error, _operation) => Boolean(error.networkError),
+         maxNumberAttempts: 5,
+         retryIf: (error, _operation) => {
+            // Retry on network errors
+            if (error.networkError) return true;
+
+            // Retry on rate limit errors (Too Many Requests)
+            if (error.graphQLErrors?.some((err) => err.message?.includes("Too Many Requests"))) {
+               return true;
+            }
+
+            return false;
+         },
       }),
       authExchange(async (utils) => {
          return {
@@ -93,11 +124,4 @@ export const client = new Client({
       }),
       fetchExchange,
    ],
-   fetchOptions: {
-      method: "POST",
-      headers: {
-         "Content-Type": "application/json",
-         Accept: "application/json",
-      },
-   },
 });
