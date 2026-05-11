@@ -64,7 +64,27 @@ export const GetMangaByIdQuery = gql(/* GraphQL */ `
             isMediaSpoiler
          }
          mediaListEntry {
+            id
             status
+            progress
+            progressVolumes
+            repeat
+            priority
+            notes
+            private
+            score
+            customLists
+            hiddenFromStatusLists
+            startedAt {
+               day
+               month
+               year
+            }
+            completedAt {
+               day
+               month
+               year
+            }
          }
          recommendations {
             nodes {
