@@ -10,6 +10,7 @@ export const GetUserLibraryQuery = gql(/* GraphQL */ `
                id
                status
                progress
+               progressVolumes
                media {
                   id
                   title {
