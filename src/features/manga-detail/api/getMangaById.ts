@@ -19,6 +19,7 @@ export const GetMangaByIdQuery = gql(/* GraphQL */ `
          popularity
          format
          chapters
+         volumes
          genres
          source
          status
