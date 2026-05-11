@@ -1,5 +1,6 @@
 import "./../../global.css";
 
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -87,41 +88,43 @@ export default function RootLayout() {
 
    return (
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: theme.bg.base }}>
-         <SafeAreaProvider>
-            <Provider value={client}>
-               <StatusBar style="light" />
-               <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: theme.bg.base }}>
-                  <Stack
-                     screenOptions={{
-                        contentStyle: {
-                           backgroundColor: theme.bg.base,
-                        },
-                        animation: "slide_from_left",
-                     }}
-                  >
-                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                     <Stack.Screen
-                        name="anime/[id]"
-                        options={{ headerShown: false, animation: "slide_from_right" }}
-                     />
-                     <Stack.Screen
-                        name="manga/[id]"
-                        options={{ headerShown: false, animation: "slide_from_right" }}
-                     />
-                     <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-                     <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
-                     <Stack.Screen
-                        name="settings"
-                        options={{ headerShown: false, animation: "slide_from_right" }}
-                     />
-                     <Stack.Screen
-                        name="list-editor"
-                        options={{ headerShown: false, animation: "slide_from_right" }}
-                     />
-                  </Stack>
-               </SafeAreaView>
-            </Provider>
-         </SafeAreaProvider>
+         <BottomSheetModalProvider>
+            <SafeAreaProvider>
+               <Provider value={client}>
+                  <StatusBar style="light" />
+                  <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: theme.bg.base }}>
+                     <Stack
+                        screenOptions={{
+                           contentStyle: {
+                              backgroundColor: theme.bg.base,
+                           },
+                           animation: "slide_from_left",
+                        }}
+                     >
+                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                        <Stack.Screen
+                           name="anime/[id]"
+                           options={{ headerShown: false, animation: "slide_from_right" }}
+                        />
+                        <Stack.Screen
+                           name="manga/[id]"
+                           options={{ headerShown: false, animation: "slide_from_right" }}
+                        />
+                        <Stack.Screen name="auth/login" options={{ headerShown: false }} />
+                        <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
+                        <Stack.Screen
+                           name="settings"
+                           options={{ headerShown: false, animation: "slide_from_right" }}
+                        />
+                        <Stack.Screen
+                           name="list-editor"
+                           options={{ headerShown: false, animation: "slide_from_right" }}
+                        />
+                     </Stack>
+                  </SafeAreaView>
+               </Provider>
+            </SafeAreaProvider>
+         </BottomSheetModalProvider>
       </GestureHandlerRootView>
    );
 }
