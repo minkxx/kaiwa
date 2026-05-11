@@ -38,7 +38,8 @@ const Anime = () => {
    };
 
    const handlerEditPress = () => {
-      router.push(`/list-editor?id=${data?.Media?.id}&type=${data?.Media?.type}`);
+      const encodedData = encodeURIComponent(JSON.stringify(data));
+      router.push(`/list-editor?data=${encodedData}`);
    };
 
    if (error) logger.error("Error fetching anime data for media ID ", mediaId, ":", error);
