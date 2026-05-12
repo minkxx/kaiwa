@@ -49,7 +49,6 @@ export const useSaveMediaListEntry = (variables: IVariables) => {
          const mutationResult = await execute({ ...variables });
 
          if (mutationResult.error) {
-            // TODO: rollback if the mutation fails
             logger.error("[Mutation Error]:", mutationResult.error.message);
          }
 
