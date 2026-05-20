@@ -14,6 +14,7 @@ interface Props {
    sheetName: string;
    initialValue: number;
    totalValue: string;
+   showTotalValue?: boolean;
    onSelect: (score: number) => void;
 }
 
@@ -22,6 +23,7 @@ export const NumberPickerSheet = ({
    sheetName,
    initialValue,
    totalValue,
+   showTotalValue = true,
    onSelect,
 }: Props) => {
    const snapPoints = useMemo(() => ["24%"], []);
@@ -71,19 +73,22 @@ export const NumberPickerSheet = ({
                      }}
                   />
                </View>
-               <View>
-                  <Text
-                     style={{
-                        color: "white",
-                        fontSize: 30,
-                        fontWeight: "bold",
-                        minWidth: 60,
-                        textAlign: "center",
-                     }}
-                  >
-                     / {totalValue}
-                  </Text>
-               </View>
+
+               {showTotalValue && (
+                  <View>
+                     <Text
+                        style={{
+                           color: "white",
+                           fontSize: 30,
+                           fontWeight: "bold",
+                           minWidth: 60,
+                           textAlign: "center",
+                        }}
+                     >
+                        / {totalValue}
+                     </Text>
+                  </View>
+               )}
             </View>
 
             <TouchableOpacity
