@@ -30,6 +30,18 @@ interface IVariables {
    completedAt?: FuzzyDateInput;
 }
 
+const cleanFuzzyDate = (dateObj: any) => {
+   if (!dateObj) return undefined;
+
+   const { day, month, year } = dateObj;
+
+   if (!day && !month && !year) {
+      return undefined;
+   }
+
+   return { day, month, year };
+};
+
 export const useSaveMediaListEntry = (variables: IVariables) => {
    const updateOptimistically = useAuthStore((state) => state.updateEntryOptimistically);
 
@@ -40,13 +52,18 @@ export const useSaveMediaListEntry = (variables: IVariables) => {
 
    const saveEntry = async (type: MediaType) => {
       try {
-         if (variables.mediaId) {
-            const { id: _, mediaId: __, ...updates } = variables;
+         const sanitizedVariables = {
+            ...variables,
+            startedAt: cleanFuzzyDate(variables.startedAt),
+            completedAt: cleanFuzzyDate(variables.completedAt),
+         };
 
+         if (variables.mediaId) {
+            const { id: _, mediaId: __, ...updates } = sanitizedVariables;
             updateOptimistically(variables.mediaId, updates, type);
          }
 
-         const mutationResult = await execute({ ...variables });
+         const mutationResult = await execute(sanitizedVariables);
 
          if (mutationResult.error) {
             logger.error("[Mutation Error]:", mutationResult.error.message);
