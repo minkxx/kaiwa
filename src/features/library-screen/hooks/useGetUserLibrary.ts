@@ -4,7 +4,7 @@ import { useQuery } from "urql";
 import { MediaType } from "@/shared/lib/graphql/generated/graphql";
 import { useAuthStore } from "@/stores/authStore";
 
-import { GetUserLibraryQuery } from "../api";
+import { GetUserLibraryQuery } from "../api/getUserLibrary";
 
 export const useGetUserLibrary = () => {
    const {

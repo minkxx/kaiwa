@@ -2,7 +2,7 @@
    "expo": {
       "name": "Kaiwa",
       "slug": "kaiwa",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "orientation": "portrait",
       "icon": "./src/assets/images/icon.png",
       "scheme": "kaiwa",
@@ -11,6 +11,7 @@
          "supportsTablet": true
       },
       "android": {
+         "softwareKeyboardLayoutMode": "resize",
          "adaptiveIcon": {
             "backgroundColor": "#11212D",
             "foregroundImage": "./src/assets/images/icon.png",
@@ -30,7 +31,8 @@
                "resizeMode": "contain",
                "backgroundColor": "#030014"
             }
-         ]
+         ],
+         "@react-native-community/datetimepicker"
       ],
       "experiments": {
          "typedRoutes": true,

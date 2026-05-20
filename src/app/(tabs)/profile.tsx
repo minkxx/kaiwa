@@ -16,6 +16,7 @@ import {
 } from "@/features/profile-screen";
 import { FloatingButton } from "@/shared/components/ui/FloatingButton";
 import { theme } from "@/shared/constants/theme";
+import { logger } from "@/shared/lib/utils/logger";
 import { refreshUserProfile } from "@/stores/actions/refreshData";
 
 const Profile = () => {
@@ -30,7 +31,7 @@ const Profile = () => {
 
    const { profileData, fetching, error } = useAuthUserDetail();
 
-   if (error) console.error("Error fetching profile data:", error);
+   if (error) logger.error("Error fetching profile data:", error);
 
    if (!profileData && fetching)
       return (

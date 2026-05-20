@@ -2,6 +2,8 @@ import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, Text, View } from "react-native";
 import { CombinedError } from "urql";
 
+import { logger } from "@/shared/lib/utils/logger";
+
 import { CharacterEdge } from "../types";
 import { CharacterCard } from "./Cards/CharacterCard";
 
@@ -20,7 +22,7 @@ export const CharacterList = ({
    error,
    loadMore,
 }: CharacterListProps) => {
-   if (error) console.error("Error fetching characters for media ID: ", mediaId, ":", error);
+   if (error) logger.error("Error fetching characters for media ID: ", mediaId, ":", error);
    if (!characters) return;
 
    return (

@@ -19,9 +19,11 @@ export const GetMangaByIdQuery = gql(/* GraphQL */ `
          popularity
          format
          chapters
+         volumes
          genres
          source
          status
+         type
          trailer {
             id
             site
@@ -63,7 +65,27 @@ export const GetMangaByIdQuery = gql(/* GraphQL */ `
             isMediaSpoiler
          }
          mediaListEntry {
+            id
             status
+            progress
+            progressVolumes
+            repeat
+            priority
+            notes
+            private
+            score
+            customLists
+            hiddenFromStatusLists
+            startedAt {
+               day
+               month
+               year
+            }
+            completedAt {
+               day
+               month
+               year
+            }
          }
          recommendations {
             nodes {

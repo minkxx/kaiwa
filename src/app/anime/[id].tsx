@@ -18,6 +18,7 @@ import {
    useMediaId,
 } from "@/features/media-detail";
 import { FloatingButton } from "@/shared/components/ui/FloatingButton";
+import { logger } from "@/shared/lib/utils/logger";
 
 const Anime = () => {
    const router = useRouter();
@@ -37,15 +38,11 @@ const Anime = () => {
    };
 
    const handlerEditPress = () => {
-      console.log(
-         "Edit pressed:",
-         data?.Media?.id,
-         data?.Media?.format,
-         data?.Media?.mediaListEntry?.status,
-      );
+      const encodedData = encodeURIComponent(JSON.stringify(data));
+      router.push(`/list-editor?data=${encodedData}`);
    };
 
-   if (error) console.error("Error fetching anime data for media ID ", mediaId, ":", error);
+   if (error) logger.error("Error fetching anime data for media ID ", mediaId, ":", error);
 
    if (fetching)
       return (

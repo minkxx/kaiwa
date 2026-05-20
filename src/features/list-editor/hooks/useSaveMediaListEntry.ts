@@ -7,6 +7,7 @@ import type {
    SaveMediaListEntryMutation as SaveMediaListEntryMutationResult,
    SaveMediaListEntryMutationVariables,
 } from "@/shared/lib/graphql/generated/graphql";
+import { logger } from "@/shared/lib/utils/logger";
 import { refreshUserLibrary } from "@/stores/actions/refreshData";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -29,6 +30,18 @@ interface IVariables {
    completedAt?: FuzzyDateInput;
 }
 
+const cleanFuzzyDate = (dateObj: any) => {
+   if (!dateObj) return undefined;
+
+   const { day, month, year } = dateObj;
+
+   if (!day && !month && !year) {
+      return undefined;
+   }
+
+   return { day, month, year };
+};
+
 export const useSaveMediaListEntry = (variables: IVariables) => {
    const updateOptimistically = useAuthStore((state) => state.updateEntryOptimistically);
 
@@ -39,22 +52,26 @@ export const useSaveMediaListEntry = (variables: IVariables) => {
 
    const saveEntry = async (type: MediaType) => {
       try {
-         if (variables.mediaId) {
-            const { id: _, mediaId: __, ...updates } = variables;
+         const sanitizedVariables = {
+            ...variables,
+            startedAt: cleanFuzzyDate(variables.startedAt),
+            completedAt: cleanFuzzyDate(variables.completedAt),
+         };
 
+         if (variables.mediaId) {
+            const { id: _, mediaId: __, ...updates } = sanitizedVariables;
             updateOptimistically(variables.mediaId, updates, type);
          }
 
-         const mutationResult = await execute({ ...variables });
+         const mutationResult = await execute(sanitizedVariables);
 
          if (mutationResult.error) {
-            // TODO: rollback if the mutation fails
-            console.error("[Mutation Error]:", mutationResult.error.message);
+            logger.error("[Mutation Error]:", mutationResult.error.message);
          }
 
          await refreshUserLibrary();
       } catch (err) {
-         console.error("[saveEntry Failed]:", err);
+         logger.error("[saveEntry Failed]:", err);
       }
    };
 
