@@ -26,12 +26,12 @@ export const refreshHomeScreenMedia = async () => {
 
    logger.info("Refreshing home screen media...");
 
-   const preloadMediaImages = (
+   const preloadMediaImages = async (
       mediaList: TrendingAnimeMedia | PopularAnimeMedia | TrendingMangaMedia,
    ) => {
       const urls = mediaList.map((item) => item?.coverImage?.large).filter(isString);
       urls.push(...mediaList.map((item) => item?.bannerImage).filter(isString));
-      Image.prefetch(urls);
+      await Image.prefetch(urls).catch((err) => logger.warn("Image prefetch failed:", err));
    };
 
    const [trendingAnimeResult, popularAnimeResult, trendingMangaResult] = await Promise.all([
@@ -65,9 +65,9 @@ export const refreshUserProfile = async () => {
 
    logger.info("Refreshing user profile...");
 
-   const preloadUserProfileImages = (userProfile: UserProfile) => {
+   const preloadUserProfileImages = async (userProfile: UserProfile) => {
       const urls = [userProfile.bannerImage, userProfile.avatar?.large].filter(isString);
-      Image.prefetch(urls);
+      await Image.prefetch(urls).catch((err) => logger.warn("Image prefetch failed:", err));
    };
 
    const userProfileResult = await client
@@ -89,12 +89,12 @@ export const refreshUserLibrary = async () => {
 
    logger.info("Refreshing user library...");
 
-   const preloadUserLibraryImages = (lists: UserLibraryLists) => {
+   const preloadUserLibraryImages = async (lists: UserLibraryLists) => {
       const urls = lists
          .flatMap((list) => list?.entries)
          .map((entry) => entry?.media?.coverImage?.large)
          .filter(isString);
-      Image.prefetch(urls);
+      await Image.prefetch(urls).catch((err) => logger.warn("Image prefetch failed:", err));
    };
 
    const [animeResult, mangaResult] = await Promise.all([
@@ -113,6 +113,13 @@ export const refreshUserLibrary = async () => {
          )
          .toPromise(),
    ]);
+
+   if (animeResult.error) {
+      logger.error("Failed to fetch anime library:", animeResult.error);
+   }
+   if (mangaResult.error) {
+      logger.error("Failed to fetch manga library:", mangaResult.error);
+   }
 
    if (animeResult.data?.MediaListCollection?.lists) {
       setUserAnimeLibraryLists(animeResult.data.MediaListCollection.lists);
