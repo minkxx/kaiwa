@@ -80,6 +80,7 @@ const Library = () => {
 
          <View className="mt-2 flex-1 px-1">
             <FlashList
+               key={`${activeType}-${statusFilter}`}
                data={flattenedData}
                keyExtractor={(item, index) =>
                   item.type === "header" ? `h-${item.name}` : `c-${item.entry.media?.id}-${index}`
