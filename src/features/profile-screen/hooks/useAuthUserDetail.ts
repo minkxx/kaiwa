@@ -6,8 +6,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { GetAuthUserDataQuery } from "../api/getAuthUserData";
 
 export const useAuthUserDetail = () => {
-   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-   const { userProfile, setUserProfile } = useAuthStore();
+   const { isLoggedIn, userProfile, setUserProfile } = useAuthStore();
 
    const [authUser] = useQuery({
       query: GetAuthUserDataQuery,
