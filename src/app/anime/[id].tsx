@@ -37,7 +37,8 @@ const Anime = () => {
       // Implement option button logic, e.g., show action sheet
    };
 
-   const handlerEditPress = () => {
+   const handleEditPress = () => {
+      if (!data) return;
       const encodedData = encodeURIComponent(JSON.stringify(data));
       router.push(`/list-editor?data=${encodedData}`);
    };
@@ -79,7 +80,7 @@ const Anime = () => {
             <View className="mb-20"></View>
          </ScrollView>
 
-         <FloatingButton Icon={SquarePen} onPress={handlerEditPress} bottomPos={80} rightPos={34} />
+         <FloatingButton Icon={SquarePen} onPress={handleEditPress} bottomPos={80} rightPos={34} />
       </View>
    );
 };
