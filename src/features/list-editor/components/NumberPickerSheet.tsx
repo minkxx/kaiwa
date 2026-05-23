@@ -35,7 +35,8 @@ export const NumberPickerSheet = ({
 
    const handleSet = () => {
       const numericValue = parseInt(localValue) || 0;
-      onSelect(Math.min(Math.max(numericValue), parseInt(totalValue) || numericValue));
+      const total = parseInt(totalValue) || numericValue;
+      onSelect(Math.min(Math.max(numericValue, 0), total));
       sheetRef.current?.close();
       setLocalValue(initialValue.toString());
    };
