@@ -1,7 +1,8 @@
 import { FlashList } from "@shopify/flash-list";
+import { useCallback } from "react";
 import { Text, View } from "react-native";
 
-import { UserProfile } from "../types";
+import { CharacterNode, UserProfile } from "../types";
 import { FavCard } from "./Cards/FavCard";
 
 interface FavCharacterListProps {
@@ -9,6 +10,18 @@ interface FavCharacterListProps {
 }
 
 export const FavCharacterList = ({ profileData }: FavCharacterListProps) => {
+   const renderFavCard = useCallback(
+      ({ item }: { item: CharacterNode }) => (
+         <FavCard
+            id={item?.id ?? 0}
+            title={item?.name?.full ?? "Name Unavailable"}
+            image={item?.image?.large ?? ""}
+            type="character"
+         />
+      ),
+      [],
+   );
+
    if (
       !profileData?.favourites?.characters?.nodes ||
       profileData.favourites.characters.nodes.length === 0
@@ -20,14 +33,7 @@ export const FavCharacterList = ({ profileData }: FavCharacterListProps) => {
          <Text className="mb-2 text-lg font-semibold text-text-primary">Favorite Characters</Text>
          <FlashList
             data={profileData?.favourites?.characters?.nodes}
-            renderItem={({ item }) => (
-               <FavCard
-                  id={item?.id ?? 0}
-                  title={item?.name?.full ?? "Name Unavailable"}
-                  image={item?.image?.large ?? ""}
-                  type="character"
-               />
-            )}
+            renderItem={renderFavCard}
             keyExtractor={(item, index) => item?.id?.toString() ?? `character-${index}`}
             horizontal
             showsHorizontalScrollIndicator={false}
