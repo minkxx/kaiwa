@@ -28,6 +28,38 @@ interface SettingItemProps {
    isLast?: boolean;
 }
 
+const SettingItem = ({
+   icon: Icon,
+   label,
+   value,
+   onPress,
+   isLoading = false,
+   showChevron = true,
+   color = "#94a3b8",
+   isLast = false,
+}: SettingItemProps) => (
+   <TouchableOpacity
+      onPress={onPress}
+      disabled={isLoading || !onPress}
+      className={`flex-row items-center justify-between px-2 py-4 ${
+         !isLast ? "border-b border-gray-800" : ""
+      }`}
+   >
+      <View className="flex-row items-center gap-x-3">
+         <Icon size={20} color={color} />
+         <Text className="text-base text-gray-200">{label}</Text>
+      </View>
+      <View className="flex-row items-center gap-x-2">
+         {isLoading ? (
+            <ActivityIndicator size="small" color="#fff" />
+         ) : (
+            value && <Text className="text-sm text-gray-500">{value}</Text>
+         )}
+         {showChevron && !isLoading && <ChevronRight size={18} color="#4b5563" />}
+      </View>
+   </TouchableOpacity>
+);
+
 const Settings = () => {
    const router = useRouter();
    const handleBackPress = () => {
@@ -47,38 +79,6 @@ const Settings = () => {
       isDownloading,
       isEmbedded,
    } = useExpoUpdate();
-
-   const SettingItem = ({
-      icon: Icon,
-      label,
-      value,
-      onPress,
-      isLoading = false,
-      showChevron = true,
-      color = "#94a3b8",
-      isLast = false,
-   }: SettingItemProps) => (
-      <TouchableOpacity
-         onPress={onPress}
-         disabled={isLoading || !onPress}
-         className={`flex-row items-center justify-between px-2 py-4 ${
-            !isLast ? "border-b border-gray-800" : ""
-         }`}
-      >
-         <View className="flex-row items-center gap-x-3">
-            <Icon size={20} color={color} />
-            <Text className="text-base text-gray-200">{label}</Text>
-         </View>
-         <View className="flex-row items-center gap-x-2">
-            {isLoading ? (
-               <ActivityIndicator size="small" color="#fff" />
-            ) : (
-               value && <Text className="text-sm text-gray-500">{value}</Text>
-            )}
-            {showChevron && !isLoading && <ChevronRight size={18} color="#4b5563" />}
-         </View>
-      </TouchableOpacity>
-   );
 
    return (
       <View className="flex-1 bg-[#030014]">
