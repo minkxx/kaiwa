@@ -4,11 +4,11 @@ import { Search } from "lucide-react-native";
 import { useState } from "react";
 import {
    ActivityIndicator,
-   Dimensions,
    Pressable,
    RefreshControl,
    ScrollView,
    Text,
+   useWindowDimensions,
    View,
 } from "react-native";
 
@@ -16,9 +16,6 @@ import { ReleasingTodayCard, TrendingMediaCard, useHomeData } from "@/features/h
 import { theme } from "@/shared/constants/theme";
 import { MediaType } from "@/shared/lib/graphql/generated/graphql";
 import { refreshHomeScreenMedia } from "@/stores/actions/refreshData";
-
-const { width } = Dimensions.get("window");
-const CARD_WIDTH = width * 0.8;
 
 interface SearchBarButtonProps {
    onPress: () => void;
@@ -56,6 +53,9 @@ const MediaSection = ({ title, data, renderItem }: MediaSectionProps) => {
 };
 
 const Index = () => {
+   const { width } = useWindowDimensions();
+   const CARD_WIDTH = width * 0.8;
+
    const router = useRouter();
    const [refreshing, setRefreshing] = useState(false);
 
