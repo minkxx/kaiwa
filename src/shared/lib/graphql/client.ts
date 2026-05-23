@@ -113,14 +113,8 @@ export const client = new Client({
             },
             willAuthError(_operation) {
                const { token, expiresAt } = useAuthStore.getState();
-
-               if (!token) return false;
-
-               // If expiresAt exists, check if the current time has passed it
-               if (expiresAt && Date.now() > expiresAt * 1000) {
-                  return true;
-               }
-
+               if (!token) return true;
+               if (expiresAt && Date.now() > expiresAt * 1000) return true;
                return false;
             },
          };
