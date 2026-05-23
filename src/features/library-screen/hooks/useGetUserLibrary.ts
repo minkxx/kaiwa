@@ -47,9 +47,10 @@ export const useGetUserLibrary = () => {
 
    useEffect(() => {
       if (!userAnimeLibraryLists) {
-         if ((animeLibraryData?.MediaListCollection?.lists ?? []).length === 0) return;
+         const lists = animeLibraryData?.MediaListCollection?.lists;
+         if (!lists || lists.length === 0) return;
 
-         setUserAnimeLibraryLists(animeLibraryData?.MediaListCollection?.lists!);
+         setUserAnimeLibraryLists(lists);
       }
    }, [
       animeLibraryData?.MediaListCollection?.lists,
@@ -59,9 +60,10 @@ export const useGetUserLibrary = () => {
 
    useEffect(() => {
       if (!userMangaLibraryLists) {
-         if ((mangaLibraryData?.MediaListCollection?.lists ?? []).length === 0) return;
+         const lists = mangaLibraryData?.MediaListCollection?.lists;
+         if (!lists || lists.length === 0) return;
 
-         setUserMangaLibraryLists(mangaLibraryData?.MediaListCollection?.lists!);
+         setUserMangaLibraryLists(lists);
       }
    }, [
       mangaLibraryData?.MediaListCollection?.lists,
