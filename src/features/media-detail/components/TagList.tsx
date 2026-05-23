@@ -1,5 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { SharedMedia } from "../types";
@@ -10,12 +10,19 @@ interface TagListProps {
 }
 
 export const TagList = ({ media }: TagListProps) => {
-   const [revealedTagIds, setRevealedTagIds] = useState<number[]>([]);
-   const handleRevealTag = (tagId: number) => {
-      setRevealedTagIds((current) =>
-         current.includes(tagId) ? current.filter((id) => id !== tagId) : [...current, tagId],
-      );
-   };
+   const [revealedTagIds, setRevealedTagIds] = useState<Set<number>>(new Set());
+
+   const handleRevealTag = useCallback((tagId: number) => {
+      setRevealedTagIds((prev) => {
+         const next = new Set(prev);
+         if (next.has(tagId)) {
+            next.delete(tagId);
+         } else {
+            next.add(tagId);
+         }
+         return next;
+      });
+   }, []);
 
    if (!media?.tags || media?.tags?.length <= 0) return;
 
@@ -34,7 +41,7 @@ export const TagList = ({ media }: TagListProps) => {
                   description={item?.description ?? "Description Unavailable"}
                   rank={item?.rank ?? 0}
                   spoiler={item?.isMediaSpoiler ?? false}
-                  isRevealed={revealedTagIds.includes(item?.id ?? 0)}
+                  isRevealed={revealedTagIds.has(item?.id ?? 0)}
                   onReveal={handleRevealTag}
                />
             )}
