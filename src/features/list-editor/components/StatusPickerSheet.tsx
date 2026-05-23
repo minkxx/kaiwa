@@ -1,3 +1,4 @@
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
 import type { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import React, { useCallback, useMemo } from "react";
@@ -16,7 +17,9 @@ export const StatusPickerSheet = ({ sheetRef, onSelect }: Props) => {
    const statuses = Object.values(MediaListStatus);
 
    const renderBackdrop = useCallback(
-      (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+      (props: BottomSheetBackdropProps) => (
+         <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
+      ),
       [],
    );
 
